@@ -9,7 +9,7 @@ export default function Home() {
   const [autoRefresh, setAutoRefresh] = useState<boolean>(false);
   const [catImage, setCatImage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const intervalRef = useRef<number | undefined>();
+  const intervalRef = useRef<number | null>(null);
 
   const fetchCatImage = async (): Promise<void> => {
     try {
@@ -36,7 +36,7 @@ export default function Home() {
     
     if (currentAutoRefresh && intervalRef.current) {
       window.clearInterval(intervalRef.current);
-      intervalRef.current = undefined;
+      intervalRef.current = null;
     }
 
     await fetchCatImage();
@@ -49,7 +49,7 @@ export default function Home() {
   useEffect(() => {
     if (intervalRef.current) {
       window.clearInterval(intervalRef.current);
-      intervalRef.current = undefined;
+      intervalRef.current = null;
     }
 
     if (enabled && autoRefresh) {
@@ -59,7 +59,7 @@ export default function Home() {
     return () => {
       if (intervalRef.current) {
         window.clearInterval(intervalRef.current);
-        intervalRef.current = undefined;
+        intervalRef.current = null;
       }
     };
   }, [enabled, autoRefresh]);
